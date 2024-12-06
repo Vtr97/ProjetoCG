@@ -5,10 +5,7 @@
 // partes do braço
 int ombro = 0, cotovelo = 0, mao = 0, dedoMeio = 0, dedoEsq = 0, DedoDir = 0;
 
-// angulo da luz
-float anguloLuzX = 0.0;
-float anguloLuzY = 0.0;
-float anguloLuzZ = 0.0;
+
 
 // variaveis da camera
 float angulo = 0.0;
@@ -31,12 +28,7 @@ void display()
 
     glPushMatrix();
 
-    GLfloat posicaoLuz[] = {1.0, 1.0, 1.0, 0.0}; // 0: luz direcional 1: pontual
-    glRotatef(anguloLuzX, 1.0, 0.0, 0.0);
-    glRotatef(anguloLuzY, 0.0, 1.0, 0.0);
-    glRotatef(anguloLuzZ, 0.0, 0.0, 1.0);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-
+   
     glPopMatrix();
 
     glLoadIdentity();
