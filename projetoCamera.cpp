@@ -1,11 +1,11 @@
 #include <GL/glut.h>
 #include <math.h>
+#include <algorithm>
 #include "iluminacao.h"
 
+
 // partes do braço
-int ombro = 0, cotovelo = 0, mao = 0, dedoMeio = 0, dedoEsq = 0, DedoDir = 0;
-
-
+int ombro = 0, cotovelo = 0, mao = 0, dedoMeio = 0, dedoEsq = 0, dedoDir = 0;
 
 // variaveis da camera
 float angulo = 0.0;
@@ -25,12 +25,6 @@ void inicializa()
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glPushMatrix();
-
-   
-    glPopMatrix();
-
     glLoadIdentity();
 
     float posX = distancia * cos(angulo);
@@ -87,10 +81,35 @@ void display()
     // articulação dedo meio
     glTranslatef(0.5, 0.0, 0.0);
     glRotatef((float)dedoMeio, 0.0, 0.0, 1.0);
+    glRotatef((float)dedoEsq, 0.0, 0.0, 1.0);
+    glRotatef((float)dedoDir, 0.0, 0.0, 1.0);
     glTranslatef(0.5, 0.0, 0.0);
 
     // dedo meio
     GLfloat materialAmarelo[] = {1.0, 1.0, 0.0, 1.0};
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialAmarelo);
+    glPushMatrix();
+    glScalef(1, 0.2, 0.1);
+    glutSolidCube(1.0);
+    glPopMatrix();
+
+    // articulação dedo Esq
+    glTranslatef(-0.5, 0, 0);
+    glTranslatef(0.5, 0.0, 0.40);
+
+    // dedo Esq
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialAmarelo);
+    glPushMatrix();
+    glScalef(1, 0.2, 0.1);
+    glutSolidCube(1.0);
+    glPopMatrix();
+
+
+    // articulação dedo Dir
+    glTranslatef(-0.5, 0, -0.40);
+    glTranslatef(0.5, 0.0, -0.40);
+
+    // dedo Dir
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialAmarelo);
     glPushMatrix();
     glScalef(1, 0.2, 0.1);
@@ -118,30 +137,44 @@ void teclado(unsigned char tecla, int x, int y)
         break;
 
     case 'o':
-        ombro = (ombro + 5) % 360;
+        ombro = std::min((ombro + 5),90);
         glutPostRedisplay();
         break;
     case 'O':
-        ombro = (ombro - 5) % 360;
+        ombro = std::max((ombro - 5),-180);
         glutPostRedisplay();
         break;
     case 'c':
-        cotovelo = (cotovelo + 5) % 360;
+        cotovelo = std::min((cotovelo + 5),130);
         glutPostRedisplay();
         break;
     case 'C':
-        cotovelo = (cotovelo - 5) % 360;
+        cotovelo = std::max((cotovelo - 5),0);
         glutPostRedisplay();
         break;
 
     case 'm':
-        mao = (mao + 5) % 360;
+        mao = std::min((mao + 5),90);
         glutPostRedisplay();
         break;
     case 'M':
-        mao = (mao - 5) % 360;
+        mao = std::max((mao - 5),-90);
         glutPostRedisplay();
         break;
+    case 'd':
+        dedoEsq = std::min((dedoEsq + 5), 40); // Limita a 90°
+        dedoMeio = std::min((dedoMeio + 5), 40);
+        dedoDir = std::min((dedoDir + 5), 40);
+        glutPostRedisplay();
+    break;
+
+    case 'D':
+        dedoEsq = std::max((dedoEsq - 5), 0); // Limita a 0°
+        dedoMeio = std::max((dedoMeio - 5), 0);
+        dedoDir = std::max((dedoDir - 5), 0);
+        glutPostRedisplay();
+        break;
+    
     case 27:
         exit(0);
         break;
