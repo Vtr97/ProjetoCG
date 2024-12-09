@@ -273,7 +273,30 @@ void teclado(unsigned char tecla, int x, int y)
         dedoDir = std::max((dedoDir - 5), 0);
         glutPostRedisplay();
         break;
-    
+    case '1': // Aumenta luz ambiente
+        ajustaIntensidade(luzAmbiente, 0.1f);
+        inicializaIluminacao();
+        break;
+    case '2': // Reduz luz ambiente
+        ajustaIntensidade(luzAmbiente, -0.1f);
+        inicializaIluminacao();
+        break;
+    case '3': // Aumenta luz difusa
+        ajustaIntensidade(luzDifusa, 0.1f);
+        inicializaIluminacao();
+        break;
+    case '4': // Reduz luz difusa
+        ajustaIntensidade(luzDifusa, -0.1f);
+        inicializaIluminacao();
+        break;
+    case '5': // Aumenta luz especular
+        ajustaIntensidade(luzEspecular, 0.1f);
+        inicializaIluminacao();
+        break;
+    case '6': // Reduz luz especular
+        ajustaIntensidade(luzEspecular, -0.1f);
+        inicializaIluminacao();
+        break;
     case 27:
         exit(0);
         break;
@@ -341,7 +364,54 @@ void menu(int opcao)
             velocidadeAnimacao = 0.0;
             break;
     }
-} 
+}
+
+void menuIluminacao(int opcao) {
+    switch (opcao) {
+        case 1: // Aumenta luz ambiente
+            ajustaIntensidade(luzAmbiente, 0.1f);
+            inicializaIluminacao();
+            break;
+        case 2: // Reduz luz ambiente
+            ajustaIntensidade(luzAmbiente, -0.1f);
+            inicializaIluminacao();
+            break;
+        case 3: // Aumenta luz difusa
+            ajustaIntensidade(luzDifusa, 0.1f);
+            inicializaIluminacao();
+            break;
+        case 4: // Reduz luz difusa
+            ajustaIntensidade(luzDifusa, -0.1f);
+            inicializaIluminacao();
+            break;
+        case 5: // Aumenta luz especular
+            ajustaIntensidade(luzEspecular, 0.1f);
+            inicializaIluminacao();
+            break;
+        case 6: // Reduz luz especular
+            ajustaIntensidade(luzEspecular, -0.1f);
+            inicializaIluminacao();
+            break;
+        case 7: // Reiniciar iluminação
+            reiniciarIluminacao();
+            break;
+    }
+    glutPostRedisplay();
+}
+
+void menuArticulacao(int opcao) {
+    switch (opcao) {
+        case 1:
+            ombro = 0;
+            cotovelo = 0;
+            mao = 0;
+            dedoMeio = 0;
+            dedoEsq = 0;
+            dedoDir = 0;
+            break;
+    }
+    glutPostRedisplay();
+}
 
 int main(int argc, char **argv)
 {
@@ -357,11 +427,26 @@ int main(int argc, char **argv)
     glutAddMenuEntry("Inicia animacao", 1);
     glutAddMenuEntry("Pausa animacao", 0);
 
+    int menuIlum = glutCreateMenu(menuIluminacao);
+    glutAddMenuEntry("Aumentar luz ambiente", 1);
+    glutAddMenuEntry("Reduzir luz ambiente", 2);
+    glutAddMenuEntry("Aumentar luz difusa", 3);
+    glutAddMenuEntry("Reduzir luz difusa", 4);
+    glutAddMenuEntry("Aumentar luz especular", 5);
+    glutAddMenuEntry("Reduzir luz especular", 6);
+    glutAddMenuEntry("Reiniciar iluminacao", 7);
+
+    int menuArt = glutCreateMenu(menuArticulacao);
+    glutAddMenuEntry("Reiniciar articulacoes", 1);
+
     glutReshapeFunc(reshape);
     glutKeyboardFunc(teclado);
     glutSpecialFunc(tecladoEspecial);
     glutCreateMenu(menu);
     glutAddSubMenu("Animacao",submenuAnimacao);
+    glutAddSubMenu("Iluminacao",menuIlum);
+    glutAddSubMenu("Articulacoes",menuArt);
+
     glutAttachMenu(GLUT_MIDDLE_BUTTON);
     glutTimerFunc(1000, atualiza, 0);   
     glutMouseFunc(mousePressionado);
