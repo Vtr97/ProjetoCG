@@ -373,6 +373,20 @@ void menuIluminacao(int opcao) {
     glutPostRedisplay();
 }
 
+void menuArticulacao(int opcao) {
+    switch (opcao) {
+        case 1:
+            ombro = 0;
+            cotovelo = 0;
+            mao = 0;
+            dedoMeio = 0;
+            dedoEsq = 0;
+            dedoDir = 0;
+            break;
+    }
+    glutPostRedisplay();
+}
+
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -387,8 +401,6 @@ int main(int argc, char **argv)
     glutAddMenuEntry("Inicia animacao", 1);
     glutAddMenuEntry("Pausa animacao", 0);
 
-
-    // Criação do submenu de iluminação
     int menuIlum = glutCreateMenu(menuIluminacao);
     glutAddMenuEntry("Aumentar luz ambiente", 1);
     glutAddMenuEntry("Reduzir luz ambiente", 2);
@@ -397,6 +409,8 @@ int main(int argc, char **argv)
     glutAddMenuEntry("Aumentar luz especular", 5);
     glutAddMenuEntry("Reduzir luz especular", 6);
 
+    int menuArt = glutCreateMenu(menuArticulacao);
+    glutAddMenuEntry("Reiniciar articulações", 1);
 
     glutReshapeFunc(reshape);
     glutKeyboardFunc(teclado);
@@ -404,6 +418,7 @@ int main(int argc, char **argv)
     glutCreateMenu(menu);
     glutAddSubMenu("Animacao",submenuAnimacao);
     glutAddSubMenu("Iluminacao",menuIlum);
+    glutAddSubMenu("Articulacoes",menuArt);
 
     glutAttachMenu(GLUT_MIDDLE_BUTTON);
     glutTimerFunc(1000, atualiza, 0);   
