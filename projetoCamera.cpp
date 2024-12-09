@@ -273,7 +273,38 @@ void teclado(unsigned char tecla, int x, int y)
         dedoDir = std::max((dedoDir - 5), 0);
         glutPostRedisplay();
         break;
+    case '1': // Aumenta luz ambiente
+        ajustaIntensidade(luzAmbiente, 0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
     
+    case '2': // Reduz luz ambiente
+        ajustaIntensidade(luzAmbiente, -0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
+    case '3': // Aumenta luz difusa
+        ajustaIntensidade(luzDifusa, 0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
+    case '4': // Reduz luz difusa
+        ajustaIntensidade(luzDifusa, -0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
+    case '5': // Aumenta luz especular
+        ajustaIntensidade(luzEspecular, 0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
+    case '6': // Reduz luz especular
+        ajustaIntensidade(luzEspecular, -0.1f);
+        inicializaIluminacao();
+        glutPostRedisplay();
+        break;
+
     case 27:
         exit(0);
         break;
